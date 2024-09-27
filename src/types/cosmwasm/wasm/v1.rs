@@ -1,195 +1,4 @@
 use osmosis_std_derive::CosmwasmExt;
-/// ContractExecutionAuthorization defines authorization for wasm execute.
-/// Since: wasmd 0.30
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmwasm.wasm.v1.ContractExecutionAuthorization")]
-pub struct ContractExecutionAuthorization {
-    /// Grants for contract executions
-    #[prost(message, repeated, tag = "1")]
-    pub grants: ::prost::alloc::vec::Vec<ContractGrant>,
-}
-/// ContractMigrationAuthorization defines authorization for wasm contract
-/// migration. Since: wasmd 0.30
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmwasm.wasm.v1.ContractMigrationAuthorization")]
-pub struct ContractMigrationAuthorization {
-    /// Grants for contract migrations
-    #[prost(message, repeated, tag = "1")]
-    pub grants: ::prost::alloc::vec::Vec<ContractGrant>,
-}
-/// ContractGrant a granted permission for a single contract
-/// Since: wasmd 0.30
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmwasm.wasm.v1.ContractGrant")]
-pub struct ContractGrant {
-    /// Contract is the bech32 address of the smart contract
-    #[prost(string, tag = "1")]
-    pub contract: ::prost::alloc::string::String,
-    /// Limit defines execution limits that are enforced and updated when the grant
-    /// is applied. When the limit lapsed the grant is removed.
-    #[prost(message, optional, tag = "2")]
-    pub limit: ::core::option::Option<crate::shim::Any>,
-    /// Filter define more fine-grained control on the message payload passed
-    /// to the contract in the operation. When no filter applies on execution, the
-    /// operation is prohibited.
-    #[prost(message, optional, tag = "3")]
-    pub filter: ::core::option::Option<crate::shim::Any>,
-}
-/// MaxCallsLimit limited number of calls to the contract. No funds transferable.
-/// Since: wasmd 0.30
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmwasm.wasm.v1.MaxCallsLimit")]
-pub struct MaxCallsLimit {
-    /// Remaining number that is decremented on each execution
-    #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
-    pub remaining: u64,
-}
-/// MaxFundsLimit defines the maximal amounts that can be sent to the contract.
-/// Since: wasmd 0.30
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmwasm.wasm.v1.MaxFundsLimit")]
-pub struct MaxFundsLimit {
-    /// Amounts is the maximal amount of tokens transferable to the contract.
-    #[prost(message, repeated, tag = "1")]
-    pub amounts: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
-}
-/// CombinedLimit defines the maximal amounts that can be sent to a contract and
-/// the maximal number of calls executable. Both need to remain >0 to be valid.
-/// Since: wasmd 0.30
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmwasm.wasm.v1.CombinedLimit")]
-pub struct CombinedLimit {
-    /// Remaining number that is decremented on each execution
-    #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
-    pub calls_remaining: u64,
-    /// Amounts is the maximal amount of tokens transferable to the contract.
-    #[prost(message, repeated, tag = "2")]
-    pub amounts: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
-}
-/// AllowAllMessagesFilter is a wildcard to allow any type of contract payload
-/// message.
-/// Since: wasmd 0.30
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmwasm.wasm.v1.AllowAllMessagesFilter")]
-pub struct AllowAllMessagesFilter {}
-/// AcceptedMessageKeysFilter accept only the specific contract message keys in
-/// the json object to be executed.
-/// Since: wasmd 0.30
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmwasm.wasm.v1.AcceptedMessageKeysFilter")]
-pub struct AcceptedMessageKeysFilter {
-    /// Messages is the list of unique keys
-    #[prost(string, repeated, tag = "1")]
-    pub keys: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// AcceptedMessagesFilter accept only the specific raw contract messages to be
-/// executed.
-/// Since: wasmd 0.30
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmwasm.wasm.v1.AcceptedMessagesFilter")]
-pub struct AcceptedMessagesFilter {
-    /// Messages is the list of raw contract messages
-    #[prost(bytes = "vec", repeated, tag = "1")]
-    pub messages: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
-}
 /// AccessTypeParam
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -205,10 +14,6 @@ pub struct AcceptedMessagesFilter {
 #[proto_message(type_url = "/cosmwasm.wasm.v1.AccessTypeParam")]
 pub struct AccessTypeParam {
     #[prost(enumeration = "AccessType", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub value: i32,
 }
 /// AccessConfig access control type.
@@ -226,10 +31,6 @@ pub struct AccessTypeParam {
 #[proto_message(type_url = "/cosmwasm.wasm.v1.AccessConfig")]
 pub struct AccessConfig {
     #[prost(enumeration = "AccessType", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub permission: i32,
     #[prost(string, repeated, tag = "3")]
     pub addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -251,10 +52,6 @@ pub struct Params {
     #[prost(message, optional, tag = "1")]
     pub code_upload_access: ::core::option::Option<AccessConfig>,
     #[prost(enumeration = "AccessType", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub instantiate_default_permission: i32,
 }
 /// CodeInfo is data for the uploaded contract WASM code
@@ -297,11 +94,6 @@ pub struct CodeInfo {
 pub struct ContractInfo {
     /// CodeID is the reference to the stored Wasm code
     #[prost(uint64, tag = "1")]
-    #[serde(alias = "codeID")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code_id: u64,
     /// Creator address who initially instantiated the contract
     #[prost(string, tag = "2")]
@@ -316,7 +108,6 @@ pub struct ContractInfo {
     #[prost(message, optional, tag = "5")]
     pub created: ::core::option::Option<AbsoluteTxPosition>,
     #[prost(string, tag = "6")]
-    #[serde(alias = "ibc_portID")]
     pub ibc_port_id: ::prost::alloc::string::String,
     /// Extension is an extension point to store custom metadata within the
     /// persistence model.
@@ -338,18 +129,9 @@ pub struct ContractInfo {
 #[proto_message(type_url = "/cosmwasm.wasm.v1.ContractCodeHistoryEntry")]
 pub struct ContractCodeHistoryEntry {
     #[prost(enumeration = "ContractCodeHistoryOperationType", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub operation: i32,
     /// CodeID is the reference to the stored WASM code
     #[prost(uint64, tag = "2")]
-    #[serde(alias = "codeID")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code_id: u64,
     /// Updated Tx position when the operation was executed.
     #[prost(message, optional, tag = "3")]
@@ -374,18 +156,10 @@ pub struct ContractCodeHistoryEntry {
 pub struct AbsoluteTxPosition {
     /// BlockHeight is the block the contract was created at
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub block_height: u64,
     /// TxIndex is a monotonic counter within the block (actual transaction index,
     /// or gas consumed)
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub tx_index: u64,
 }
 /// Model is a struct that holds a KV pair
@@ -491,6 +265,232 @@ impl ContractCodeHistoryOperationType {
         }
     }
 }
+/// StoreCodeAuthorization defines authorization for wasm code upload.
+/// Since: wasmd 0.42
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmwasm.wasm.v1.StoreCodeAuthorization")]
+pub struct StoreCodeAuthorization {
+    /// Grants for code upload
+    #[prost(message, repeated, tag = "1")]
+    pub grants: ::prost::alloc::vec::Vec<CodeGrant>,
+}
+/// ContractExecutionAuthorization defines authorization for wasm execute.
+/// Since: wasmd 0.30
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmwasm.wasm.v1.ContractExecutionAuthorization")]
+pub struct ContractExecutionAuthorization {
+    /// Grants for contract executions
+    #[prost(message, repeated, tag = "1")]
+    pub grants: ::prost::alloc::vec::Vec<ContractGrant>,
+}
+/// ContractMigrationAuthorization defines authorization for wasm contract
+/// migration. Since: wasmd 0.30
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmwasm.wasm.v1.ContractMigrationAuthorization")]
+pub struct ContractMigrationAuthorization {
+    /// Grants for contract migrations
+    #[prost(message, repeated, tag = "1")]
+    pub grants: ::prost::alloc::vec::Vec<ContractGrant>,
+}
+/// CodeGrant a granted permission for a single code
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmwasm.wasm.v1.CodeGrant")]
+pub struct CodeGrant {
+    /// CodeHash is the unique identifier created by wasmvm
+    /// Wildcard "*" is used to specify any kind of grant.
+    #[prost(bytes = "vec", tag = "1")]
+    pub code_hash: ::prost::alloc::vec::Vec<u8>,
+    /// InstantiatePermission is the superset access control to apply
+    /// on contract creation.
+    /// Optional
+    #[prost(message, optional, tag = "2")]
+    pub instantiate_permission: ::core::option::Option<AccessConfig>,
+}
+/// ContractGrant a granted permission for a single contract
+/// Since: wasmd 0.30
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmwasm.wasm.v1.ContractGrant")]
+pub struct ContractGrant {
+    /// Contract is the bech32 address of the smart contract
+    #[prost(string, tag = "1")]
+    pub contract: ::prost::alloc::string::String,
+    /// Limit defines execution limits that are enforced and updated when the grant
+    /// is applied. When the limit lapsed the grant is removed.
+    #[prost(message, optional, tag = "2")]
+    pub limit: ::core::option::Option<crate::shim::Any>,
+    /// Filter define more fine-grained control on the message payload passed
+    /// to the contract in the operation. When no filter applies on execution, the
+    /// operation is prohibited.
+    #[prost(message, optional, tag = "3")]
+    pub filter: ::core::option::Option<crate::shim::Any>,
+}
+/// MaxCallsLimit limited number of calls to the contract. No funds transferable.
+/// Since: wasmd 0.30
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmwasm.wasm.v1.MaxCallsLimit")]
+pub struct MaxCallsLimit {
+    /// Remaining number that is decremented on each execution
+    #[prost(uint64, tag = "1")]
+    pub remaining: u64,
+}
+/// MaxFundsLimit defines the maximal amounts that can be sent to the contract.
+/// Since: wasmd 0.30
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmwasm.wasm.v1.MaxFundsLimit")]
+pub struct MaxFundsLimit {
+    /// Amounts is the maximal amount of tokens transferable to the contract.
+    #[prost(message, repeated, tag = "1")]
+    pub amounts: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
+}
+/// CombinedLimit defines the maximal amounts that can be sent to a contract and
+/// the maximal number of calls executable. Both need to remain >0 to be valid.
+/// Since: wasmd 0.30
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmwasm.wasm.v1.CombinedLimit")]
+pub struct CombinedLimit {
+    /// Remaining number that is decremented on each execution
+    #[prost(uint64, tag = "1")]
+    pub calls_remaining: u64,
+    /// Amounts is the maximal amount of tokens transferable to the contract.
+    #[prost(message, repeated, tag = "2")]
+    pub amounts: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
+}
+/// AllowAllMessagesFilter is a wildcard to allow any type of contract payload
+/// message.
+/// Since: wasmd 0.30
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmwasm.wasm.v1.AllowAllMessagesFilter")]
+pub struct AllowAllMessagesFilter {}
+/// AcceptedMessageKeysFilter accept only the specific contract message keys in
+/// the json object to be executed.
+/// Since: wasmd 0.30
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmwasm.wasm.v1.AcceptedMessageKeysFilter")]
+pub struct AcceptedMessageKeysFilter {
+    /// Messages is the list of unique keys
+    #[prost(string, repeated, tag = "1")]
+    pub keys: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// AcceptedMessagesFilter accept only the specific raw contract messages to be
+/// executed.
+/// Since: wasmd 0.30
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmwasm.wasm.v1.AcceptedMessagesFilter")]
+pub struct AcceptedMessagesFilter {
+    /// Messages is the list of raw contract messages
+    #[prost(bytes = "vec", repeated, tag = "1")]
+    pub messages: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
+}
 /// GenesisState - genesis state of x/wasm
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -529,11 +529,6 @@ pub struct GenesisState {
 #[proto_message(type_url = "/cosmwasm.wasm.v1.Code")]
 pub struct Code {
     #[prost(uint64, tag = "1")]
-    #[serde(alias = "codeID")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code_id: u64,
     #[prost(message, optional, tag = "2")]
     pub code_info: ::core::option::Option<CodeInfo>,
@@ -583,10 +578,6 @@ pub struct Sequence {
     #[prost(bytes = "vec", tag = "1")]
     pub id_key: ::prost::alloc::vec::Vec<u8>,
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub value: u64,
 }
 /// MsgIBCSend
@@ -609,18 +600,10 @@ pub struct MsgIbcSend {
     /// Timeout height relative to the current block height.
     /// The timeout is disabled when set to 0.
     #[prost(uint64, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub timeout_height: u64,
     /// Timeout timestamp (in nanoseconds) relative to the current block timestamp.
     /// The timeout is disabled when set to 0.
     #[prost(uint64, tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub timeout_timestamp: u64,
     /// Data is the payload to transfer. We must not make assumption what format or
     /// content is in here.
@@ -643,10 +626,6 @@ pub struct MsgIbcSend {
 pub struct MsgIbcSendResponse {
     /// Sequence number of the IBC packet sent
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub sequence: u64,
 }
 /// MsgIBCCloseChannel port and channel need to be owned by the contract
@@ -746,11 +725,6 @@ pub struct InstantiateContractProposal {
     pub admin: ::prost::alloc::string::String,
     /// CodeID is the reference to the stored WASM code
     #[prost(uint64, tag = "5")]
-    #[serde(alias = "codeID")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code_id: u64,
     /// Label is optional metadata to be stored with a constract instance.
     #[prost(string, tag = "6")]
@@ -794,11 +768,6 @@ pub struct InstantiateContract2Proposal {
     pub admin: ::prost::alloc::string::String,
     /// CodeID is the reference to the stored WASM code
     #[prost(uint64, tag = "5")]
-    #[serde(alias = "codeID")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code_id: u64,
     /// Label is optional metadata to be stored with a constract instance.
     #[prost(string, tag = "6")]
@@ -848,11 +817,6 @@ pub struct MigrateContractProposal {
     pub contract: ::prost::alloc::string::String,
     /// CodeID references the new WASM code
     #[prost(uint64, tag = "5")]
-    #[serde(alias = "codeID")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code_id: u64,
     /// Msg json encoded message to be passed to the contract on migration
     #[prost(bytes = "vec", tag = "6")]
@@ -1011,7 +975,6 @@ pub struct PinCodesProposal {
     pub description: ::prost::alloc::string::String,
     /// CodeIDs references the new WASM codes
     #[prost(uint64, repeated, packed = "false", tag = "3")]
-    #[serde(alias = "codeIDs")]
     pub code_ids: ::prost::alloc::vec::Vec<u64>,
 }
 /// Deprecated: Do not use. Since wasmd v0.40, there is no longer a need for
@@ -1040,7 +1003,6 @@ pub struct UnpinCodesProposal {
     pub description: ::prost::alloc::string::String,
     /// CodeIDs references the WASM codes
     #[prost(uint64, repeated, packed = "false", tag = "3")]
-    #[serde(alias = "codeIDs")]
     pub code_ids: ::prost::alloc::vec::Vec<u64>,
 }
 /// AccessConfigUpdate contains the code id and the access config to be
@@ -1060,11 +1022,6 @@ pub struct UnpinCodesProposal {
 pub struct AccessConfigUpdate {
     /// CodeID is the reference to the stored WASM code to be updated
     #[prost(uint64, tag = "1")]
-    #[serde(alias = "codeID")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code_id: u64,
     /// InstantiatePermission to apply to the set of code ids
     #[prost(message, optional, tag = "2")]
@@ -1273,11 +1230,6 @@ pub struct QueryContractHistoryResponse {
 pub struct QueryContractsByCodeRequest {
     /// grpc-gateway_out does not support Go style CodID
     #[prost(uint64, tag = "1")]
-    #[serde(alias = "codeID")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code_id: u64,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
@@ -1462,11 +1414,6 @@ pub struct QuerySmartContractStateResponse {
 pub struct QueryCodeRequest {
     /// grpc-gateway_out does not support Go style CodID
     #[prost(uint64, tag = "1")]
-    #[serde(alias = "codeID")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code_id: u64,
 }
 /// CodeInfoResponse contains code meta data from CodeInfo
@@ -1485,11 +1432,6 @@ pub struct QueryCodeRequest {
 pub struct CodeInfoResponse {
     /// id for legacy support
     #[prost(uint64, tag = "1")]
-    #[serde(alias = "codeID")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code_id: u64,
     #[prost(string, tag = "2")]
     pub creator: ::prost::alloc::string::String,
@@ -1601,7 +1543,6 @@ pub struct QueryPinnedCodesRequest {
 #[proto_message(type_url = "/cosmwasm.wasm.v1.QueryPinnedCodesResponse")]
 pub struct QueryPinnedCodesResponse {
     #[prost(uint64, repeated, packed = "false", tag = "1")]
-    #[serde(alias = "codeIDs")]
     pub code_ids: ::prost::alloc::vec::Vec<u64>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
@@ -1735,11 +1676,6 @@ pub struct MsgStoreCode {
 pub struct MsgStoreCodeResponse {
     /// CodeID is the reference to the stored WASM code
     #[prost(uint64, tag = "1")]
-    #[serde(alias = "codeID")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code_id: u64,
     /// Checksum is the sha256 hash of the stored code
     #[prost(bytes = "vec", tag = "2")]
@@ -1768,11 +1704,6 @@ pub struct MsgInstantiateContract {
     pub admin: ::prost::alloc::string::String,
     /// CodeID is the reference to the stored WASM code
     #[prost(uint64, tag = "3")]
-    #[serde(alias = "codeID")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code_id: u64,
     /// Label is optional metadata to be stored with a contract instance.
     #[prost(string, tag = "4")]
@@ -1828,11 +1759,6 @@ pub struct MsgInstantiateContract2 {
     pub admin: ::prost::alloc::string::String,
     /// CodeID is the reference to the stored WASM code
     #[prost(uint64, tag = "3")]
-    #[serde(alias = "codeID")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code_id: u64,
     /// Label is optional metadata to be stored with a contract instance.
     #[prost(string, tag = "4")]
@@ -1939,11 +1865,6 @@ pub struct MsgMigrateContract {
     pub contract: ::prost::alloc::string::String,
     /// CodeID references the new WASM code
     #[prost(uint64, tag = "3")]
-    #[serde(alias = "codeID")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code_id: u64,
     /// Msg json encoded message to be passed to the contract on migration
     #[prost(bytes = "vec", tag = "4")]
@@ -2060,11 +1981,6 @@ pub struct MsgUpdateInstantiateConfig {
     pub sender: ::prost::alloc::string::String,
     /// CodeID references the stored WASM code
     #[prost(uint64, tag = "2")]
-    #[serde(alias = "codeID")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code_id: u64,
     /// NewInstantiatePermission is the new access control
     #[prost(message, optional, tag = "3")]
@@ -2194,7 +2110,6 @@ pub struct MsgPinCodes {
     pub authority: ::prost::alloc::string::String,
     /// CodeIDs references the new WASM codes
     #[prost(uint64, repeated, packed = "false", tag = "2")]
-    #[serde(alias = "codeIDs")]
     pub code_ids: ::prost::alloc::vec::Vec<u64>,
 }
 /// MsgPinCodesResponse defines the response structure for executing a
@@ -2235,7 +2150,6 @@ pub struct MsgUnpinCodes {
     pub authority: ::prost::alloc::string::String,
     /// CodeIDs references the WASM codes
     #[prost(uint64, repeated, packed = "false", tag = "2")]
-    #[serde(alias = "codeIDs")]
     pub code_ids: ::prost::alloc::vec::Vec<u64>,
 }
 /// MsgUnpinCodesResponse defines the response structure for executing a
@@ -2406,3 +2320,101 @@ pub struct MsgRemoveCodeUploadParamsAddresses {
 )]
 #[proto_message(type_url = "/cosmwasm.wasm.v1.MsgRemoveCodeUploadParamsAddressesResponse")]
 pub struct MsgRemoveCodeUploadParamsAddressesResponse {}
+/// MsgStoreAndMigrateContract is the MsgStoreAndMigrateContract
+/// request type.
+///
+/// Since: 0.42
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmwasm.wasm.v1.MsgStoreAndMigrateContract")]
+pub struct MsgStoreAndMigrateContract {
+    /// Authority is the address of the governance account.
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    /// WASMByteCode can be raw or gzip compressed
+    #[prost(bytes = "vec", tag = "2")]
+    pub wasm_byte_code: ::prost::alloc::vec::Vec<u8>,
+    /// InstantiatePermission to apply on contract creation, optional
+    #[prost(message, optional, tag = "3")]
+    pub instantiate_permission: ::core::option::Option<AccessConfig>,
+    /// Contract is the address of the smart contract
+    #[prost(string, tag = "4")]
+    pub contract: ::prost::alloc::string::String,
+    /// Msg json encoded message to be passed to the contract on migration
+    #[prost(bytes = "vec", tag = "5")]
+    pub msg: ::prost::alloc::vec::Vec<u8>,
+}
+/// MsgStoreAndMigrateContractResponse defines the response structure
+/// for executing a MsgStoreAndMigrateContract message.
+///
+/// Since: 0.42
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmwasm.wasm.v1.MsgStoreAndMigrateContractResponse")]
+pub struct MsgStoreAndMigrateContractResponse {
+    /// CodeID is the reference to the stored WASM code
+    #[prost(uint64, tag = "1")]
+    pub code_id: u64,
+    /// Checksum is the sha256 hash of the stored code
+    #[prost(bytes = "vec", tag = "2")]
+    pub checksum: ::prost::alloc::vec::Vec<u8>,
+    /// Data contains bytes to returned from the contract
+    #[prost(bytes = "vec", tag = "3")]
+    pub data: ::prost::alloc::vec::Vec<u8>,
+}
+/// MsgUpdateContractLabel sets a new label for a smart contract
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmwasm.wasm.v1.MsgUpdateContractLabel")]
+pub struct MsgUpdateContractLabel {
+    /// Sender is the that actor that signed the messages
+    #[prost(string, tag = "1")]
+    pub sender: ::prost::alloc::string::String,
+    /// NewLabel string to be set
+    #[prost(string, tag = "2")]
+    pub new_label: ::prost::alloc::string::String,
+    /// Contract is the address of the smart contract
+    #[prost(string, tag = "3")]
+    pub contract: ::prost::alloc::string::String,
+}
+/// MsgUpdateContractLabelResponse returns empty data
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmwasm.wasm.v1.MsgUpdateContractLabelResponse")]
+pub struct MsgUpdateContractLabelResponse {}
